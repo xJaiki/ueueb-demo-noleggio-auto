@@ -1,112 +1,257 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Home, User, ExternalLink, Globe, Menu, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Home, User, ExternalLink, Globe, Menu, X, Mail, GalleryVerticalEnd, LogIn } from 'lucide-react';
 import logo from '../../assets/logo.svg';
-import { AnimatedLogoWithText } from '../ui/AnimatedLogo';
+import AnimatedLogo from '../ui/AnimatedLogo';
 
 const Layout = ({ children }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
   const location = useLocation();
+  const navigate = useNavigate();
 
-  // Check if the current link is active
-  const isActive = (path) => location.pathname === path;
+  const isActiveRoute = (path) => location.pathname === path;
+
+  // Briefly disable transitions on route change (no scroll jump)
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.add('route-swap');
+    const t = setTimeout(() => {
+      root.classList.remove('route-swap');
+    }, 100);
+    return () => clearTimeout(t);
+  }, [location.pathname]);
+
+  // Update active section based on viewport when on root (robust to late-mounted sections)
+  useEffect(() => {
+    if (location.pathname !== '/') return;
+    let detach = () => {};
+    let stopped = false;
+
+    const setup = () => {
+      const sections = Array.from(document.querySelectorAll('section[id]'));
+      if (!sections.length) {
+        if (!stopped) requestAnimationFrame(setup);
+        return;
+      }
+      const onScroll = () => {
+        const mid = window.scrollY + window.innerHeight / 2;
+        let current = 'home';
+        for (const s of sections) {
+          const rect = s.getBoundingClientRect();
+          const top = window.scrollY + rect.top;
+          const bottom = top + rect.height;
+          if (mid >= top && mid < bottom) {
+            current = s.id;
+            break;
+          }
+        }
+        setActiveSection(current);
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      detach = () => {
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+      };
+    };
+
+    setup();
+    return () => { stopped = true; detach(); };
+  }, [location.pathname]);
+
+  // Scroll to hash on initial load and on route/hash change (after content mounts)
+  useEffect(() => {
+    if (location.pathname !== '/') return;
+    const id = location.hash?.replace('#', '');
+    if (!id) return;
+    let raf1, raf2;
+    raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          const headerOffset = window.innerWidth < 768 ? 56 : 0;
+          const y = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        }
+      });
+    });
+    return () => { cancelAnimationFrame(raf1); cancelAnimationFrame(raf2); };
+  }, [location.pathname, location.hash]);
+
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const headerOffset = window.innerWidth < 768 ? 56 : 0; // mobile header h-14
+    const y = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  };
+
+  const handleNavClick = (id) => {
+    if (isMenuOpen) setIsMenuOpen(false);
+    console.log('handleNavClick', { id, pathname: location.pathname });
+    if (location.pathname === '/' && id !== 'login') {
+      scrollToSection(id);
+    } else if (id == 'login') {
+      console.log('navigating to /login');
+      navigate('/login');
+    } else {
+      navigate(`/#${id}`);
+    }
+  };
+
+  const navItems = [
+    { name: 'Home', id: 'home', icon: Home },
+    { name: 'Chi siamo', id: 'about', icon: User },
+    { name: 'Portfolio', id: 'portfolio', icon: GalleryVerticalEnd },
+    { name: 'Contattaci', id: 'contact', icon: Mail },
+  ];
+
+  const RailLink = ({ item }) => {
+    const Icon = item.icon;
+    const active = location.pathname === '/' ? activeSection === item.id : false;
+    const handleClick = (e) => {
+      if (location.pathname === '/') {
+        e.preventDefault();
+        scrollToSection(item.id);
+        // sync URL hash without reloading
+        window.history.pushState({}, '', `/#${item.id}`);
+        if (isMenuOpen) setIsMenuOpen(false);
+      } else if (isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+    return (
+      <Link
+        to={`/#${item.id}`}
+        onClick={handleClick}
+        className={`rail-item ${active ? 'active' : ''}`}
+        aria-current={active ? 'page' : undefined}
+      >
+        <span className={`indicator ${active ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-50'}`} />
+        <Icon className="h-5 w-5" />
+        <span className="nav-tooltip">{item.name}</span>
+      </Link>
+    );
+  };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* Navbar */}
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white shadow-md py-2`}
-      >
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <Link
-              to="/"
-              className="flex items-center font-bold text-xl text-rose-600"
-              style={{ marginLeft: '-0.8rem' }}
-            >
-              <AnimatedLogoWithText width='2' height='2' />
-            </Link>
-            {/* Mobile menu button */}
-            <button
-              className="md:hidden text-gray-700"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-
-            {/* Desktop navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <Link
-                to="/"
-                className={`flex items-center space-x-2 transition-colors ${isActive('/')
-                  ? 'text-rose-600 font-medium'
-                  : 'text-gray-700 hover:text-rose-600'
-                  }`}
-              >
-                <Home size={18} />
-                <span>Home</span>
-              </Link>
-
-              <a
-                href="https://github.com/xjaiki/react-template-minimal"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2 text-gray-700 hover:text-rose-600 transition-colors"
-              >
-                <ExternalLink size={18} />
-                <span>Repository</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Mobile menu */}
-      <div
-        className={`fixed inset-0 bg-gray-800 bg-opacity-95 z-40 transition-transform duration-300 md:hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
-      >
-        <div className="flex flex-col items-center justify-center h-full space-y-8 text-xl">
-          <Link
-            to="/"
-            className="text-white hover:text-rose-300 flex items-center space-x-3"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            <Home size={22} />
-            <span>Home</span>
+    <div className="min-h-screen text-foreground">
+      {/* Left side rail (desktop) */}
+      <aside className="hidden md:flex fixed bg-bg-soft backdrop-blur-lg left-0 top-0 h-screen w-16 md:w-20 side-rail z-40">
+        <div className="flex flex-col items-center justify-between h-full w-full py-4">
+          {/* Brand */}
+          <Link to="/" className="rail-item pressable" aria-label="Home">
+            <AnimatedLogo width="1.1" height="1.1" />
+            <span className="nav-tooltip">Home</span>
           </Link>
-          <a
-            href="https://github.com/yourusername/jaiki-react-template"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white hover:text-rose-300 flex items-center space-x-3"
-          >
-            <ExternalLink size={22} />
-            <span>Repository</span>
-          </a>
+
+          {/* Nav */}
+          <nav className="flex flex-col gap-2">
+            {navItems.map((item) => (
+              <RailLink key={item.name} item={item} />
+            ))}
+          </nav>
+
+          {/* CTA scroll to contact */}
+          <button onClick={() => handleNavClick('login')} className="rail-item pressable" aria-label="Area riservata">
+            <LogIn className="h-5 w-5" />
+            <span className="nav-tooltip">Area riservata</span>
+          </button>
         </div>
-      </div>
+      </aside>
 
-      {/* Main content */}
-      <main className="flex-grow py-24">
-        {children}
-      </main>
+      {/* Mobile top bar (fixed, stays on scroll) */}
+      <header
+        className="md:hidden fixed top-0 left-0 right-0 h-14 flex items-center justify-between px-4 z-50 backdrop-blur-lg bg-bg-soft/80 supports-[backdrop-filter]:bg-bg-soft/60 border-b border-border"
+      >
+        <Link to="/" className="inline-flex items-center gap-2" aria-label="Home">
+          <img src={logo} alt="Logo" className="h-6 w-6" />
+        </Link>
+        <button
+          type="button"
+          onClick={() => setIsMenuOpen(true)}
+          className="inline-flex items-center justify-center rounded-md p-1 text-foreground/80 hover:text-foreground hover:bg-foreground/5 pressable border-2 border-border"
+          aria-label="Apri menu"
+        >
+          <Menu className="h-6 w-6 " />
+        </button>
+      </header>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-4 ">
-        <div className="container mx-auto px-0">
-          <div className="flex flex-col md:flex-row justify-center items-center">
-            <div className="mb-2 md:mb-0">
-              <div className="font-bold text-xl flex items-center justify-center text-rose-600">
-                <AnimatedLogoWithText width='2' height='2' className="text-rose-600" />
+      {/* Command menu (mobile & desktop) */}
+      {isMenuOpen && (
+        <nav className="fixed inset-0 z-50 flex items-start md:items-center justify-center p-3 menu-container-appear">
+          <button
+            aria-label="Chiudi menu"
+            onClick={() => setIsMenuOpen(false)}
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(180deg, rgb(var(--color-foreground-rgb) / 0.5) 0%, rgb(var(--color-foreground-rgb) / 0.35) 100%)', backdropFilter: 'blur(10px)' }}
+          />
+          <div className="menu-appear relative w-full max-w-xl mx-auto rounded-2xl overflow-hidden" style={{ boxShadow: '0 30px 60px -20px rgba(0,0,0,0.35)' }}>
+            <div className="flex items-center justify-between px-4 py-3 bg-surface">
+              <div className="flex items-center gap-2">
+                <img src={logo} alt="Logo" className="h-5 w-5" />
+                <span className="text-sm font-medium">Studio</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsMenuOpen(false)}
+                className="inline-flex items-center justify-center rounded-full p-2 text-foreground/80 hover:text-foreground hover:bg-foreground/5 pressable"
+                aria-label="Chiudi"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="bg-surface/90 backdrop-blur-sm">
+              <div className="grid gap-1 p-2">
+                {[...navItems, { name: 'Contattami', id: 'contact', icon: Mail }].map((item, idx) => {
+                  const Icon = item.icon;
+                  const active = location.pathname === '/' ? activeSection === item.id : false;
+                  const delay = 30 + idx * 40;
+                  const content = (
+                    <div className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-foreground/90 hover:bg-foreground/5 pressable ${active ? 'bg-foreground/5' : ''}`}>
+                      <Icon className="h-5 w-5" />
+                      <span className="flex-1 text-sm">{item.name}</span>
+                      {active && (
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface text-foreground">
+                          Sei qui!
+                        </span>
+                      )}
+                    </div>
+                  );
+
+                  const handleClick = (e) => {
+                    if (location.pathname === '/') {
+                      e.preventDefault();
+                      scrollToSection(item.id);
+                      window.history.pushState({}, '', `/#${item.id}`);
+                    }
+                    setIsMenuOpen(false);
+                  };
+
+                  return (
+                    <Link
+                      key={item.name}
+                      to={`/#${item.id}`}
+                      style={{ animationDelay: `${delay}ms` }}
+                      className="menu-item"
+                      onClick={handleClick}
+                    >
+                      {content}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-4 pt-6 text-center text-gray-400">
-            <p>© {new Date().getFullYear()} JaikiTemplate. Open source with 💖</p>
-          </div>
-        </div>
-      </footer>
+        </nav>
+      )}
+
+      {/* Main content area with rail offset */}
+      <main className="w-full md:pl-20 pt-14 md:pt-0">
+        {children}
+      </main>
     </div>
   );
 };

@@ -1,67 +1,102 @@
 import React from 'react';
-import toast from 'react-hot-toast';
-import { useState } from 'react';
-import AnimatedLogo from '../components/ui/AnimatedLogo';
+import { Link } from 'react-router-dom';
+import { ArrowRight, ChevronDown } from 'lucide-react';
+import SectionDivider from '../components/ui/SectionDivider';
 
 const Home = () => {
-  const [counter, setCounter] = useState(0);
-
-  const handleClick = () => {
-    setCounter(prevCounter => prevCounter + 1);
+  const handleLocationClick = (e) => {
+    const target = e.currentTarget;
+    if (target) {
+      import('canvas-confetti').then((module) => {
+        const confetti = module.default;
+        const rect = target.getBoundingClientRect();
+        const x = (rect.left + rect.right) / 2 / window.innerWidth;
+        const y = (rect.top + rect.bottom) / 2 / window.innerHeight;
+        confetti({
+          particleCount: 10,
+          spread: 300,
+          startVelocity: 20,
+          origin: { x, y },
+          colors: ['#0085bd'],
+          shapes: ['circle', 'square'],
+        });
+      });
+    }
   };
 
-  if (counter === 5) {
-    // When the counter reaches 5, we generate an error
-    throw new Error('I crashed when counter reached 5!');
-  }
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const headerOffset = window.innerWidth < 768 ? 56 : 0; // mobile header h-14
+    const y = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  };
 
   return (
-    <div className="">
-      <div className="container mx-auto px-4 z-20">
-        <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
-            Eureka, it works! <span className="text-sm font-medium text-gray-600">i hope</span>
-          </h1>
-          <AnimatedLogo width="8" height="8" />
-          <div className="p-6 bg-green-100 rounded-lg my-8">
-            <p className="text-lg text-green-700 font-medium">
-              Excellent! The template has been configured correctly. <br /> 
-              You can proceed by deleting the content of this page and start building your app.
+    <div
+      className="min-h-[100svh] md:min-h-screen flex flex-col justify-start md:justify-center bg-light text-dark font-sans"
+    >
+      <div className="container mx-auto px-6">
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          {/* Left: Typographic content */}
+          <div className="relative pt-4 md:pt-12 pb-12">
+            <p className="font-mono mb-2 ml-4 md:ml-0 text-sm md:text-base text-primary">Web & Software Agency</p>
+
+            {/* Meta chips (all breakpoints) */}
+            <div className="ml-4 md:ml-0 mb-6 flex flex-wrap items-center gap-2">
+              <span className="rounded-full border border-dark/20 bg-white/70 backdrop-blur px-3 py-1 text-[11px] text-dark/70 shadow-sm">
+                Dal <span className="text-primary">2023</span>
+              </span>
+              <span className="rounded-full border border-dark/20 bg-white/70 backdrop-blur px-3 py-1 text-[11px] text-dark/70 shadow-sm">
+                <span className="text-primary">Creative</span> Digital Solutions
+              </span>
+              <button
+                type="button"
+                onClick={handleLocationClick}
+                className="rounded-full border border-dark/20 bg-white/70 backdrop-blur px-3 py-1 text-[11px] text-dark/70 shadow-sm"
+              >
+                Based in <span className="text-primary">Napoli</span>
+              </button>
+            </div>
+
+            <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">
+              <span className="block text-primary">Digital</span>
+              <span className="block">Slice</span>
+            </h1>
+            <p className="text-lg md:text-xl text-dark/80 max-w-md my-8 font-medium">
+              Sviluppiamo soluzioni digitali con la stessa cura di un'ottima pizza.
             </p>
+            <div className="flex flex-col items-start gap-4">
+              <button
+                onClick={() => scrollToSection('portfolio')}
+                className="cursor-pointer group inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-bold rounded-full text-base md:text-lg transition-transform transform hover:scale-105 shadow-lg"
+              >
+                I nostri progetti
+                <ArrowRight className="w-5 h-5 ml-3 transition-transform group-hover:translate-x-1.5" />
+              </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="relative group inline-flex items-center text-dark font-medium text-lg cursor-pointer transition-transform transform hover:scale-105"
+              >
+                Contattaci 
+                <span className="border-b-2 border-primary border-dashed absolute left-0 bottom-0 w-full scale-x-100 " />
+                
+              </button>
+            </div>
+
+            {/* Scroll cue center bottom */}
           </div>
 
-          <div className="bg-white rounded-lg p-6 text-left border-4 border-l-rose-600 border-t-0 border-r-0 border-b-0">
-            <h2 className="text-xl font-bold mb-4 text-rose-600">
-              Project Information
-            </h2>
-            <p className="text-gray-700 mb-4">
-              This is a minimal React + Tailwind CSS template. It includes:
-            </p>
-            <ul className="list-disc pl-5 space-y-2 text-gray-700">
-              <li>React 19 with optimized Vite configuration</li>
-              <li>Tailwind CSS 4.0 preconfigured</li>
-              <li>React Router for navigation</li>
-              <li>
-                <button className="text-white bg-rose-600 p-2 rounded-xl hover:bg-rose-800 cursor-pointer" onClick={() => {
-                  // random toast between toast, toast.success, toast.error, toast.loading
-                  const toasts = [toast, toast.success, toast.error];
-                  const randomToast = toasts[Math.floor(Math.random() * toasts.length)];
-                  randomToast("I'm not a bread slice 🍞, I'm a toast 🥪!");
-
-                }}>
-                  React Hot Toast
-                </button>{' '}
-                for notifications
-              </li>
-              <li>
-                <button className='text-white bg-rose-600 p-2 rounded-xl hover:bg-rose-800 cursor-pointer' onClick={() => handleClick()}>
-                  React Error Boundary
-                </button>{' '}
-                - Click 5 times to generate an error, now you are at {counter}
-              </li>
-            </ul>
-          </div>
+          {/* Right column left empty for breathable layout on desktop */}
+          <div className="hidden md:block" />
         </div>
+
+            <div className="absolute left-1/2 bottom-10 transform -translate-x-1/2">
+              <ChevronDown className="w-5 h-5 animate-bounce" aria-hidden />
+            </div>
+
+        {/* Divider (narrow) */}
+        <SectionDivider fullBleed={false} maxWidthClass="max-w-xl" />
       </div>
     </div>
   );
