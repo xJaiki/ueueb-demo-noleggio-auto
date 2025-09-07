@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Home, User, ExternalLink, Globe, Menu, X, Mail, GalleryVerticalEnd, LogIn } from 'lucide-react';
+import { Home, User, ExternalLink, Globe, Menu, X, Mail, GalleryVerticalEnd, LogIn, Pizza } from 'lucide-react';
 import logo from '../../assets/logo.svg';
 import AnimatedLogo from '../ui/AnimatedLogo';
 
@@ -103,8 +103,9 @@ const Layout = ({ children }) => {
 
   const navItems = [
     { name: 'Home', id: 'home', icon: Home },
-    { name: 'Chi siamo', id: 'about', icon: User },
+    { name: 'Le nostre fette', id: 'slices', icon: Pizza },
     { name: 'Portfolio', id: 'portfolio', icon: GalleryVerticalEnd },
+    { name: 'Chi siamo', id: 'about', icon: User },
     { name: 'Contattaci', id: 'contact', icon: Mail },
   ];
 
@@ -205,7 +206,7 @@ const Layout = ({ children }) => {
             </div>
             <div className="bg-surface/90 backdrop-blur-sm">
               <div className="grid gap-1 p-2">
-                {[...navItems, { name: 'Contattami', id: 'contact', icon: Mail }].map((item, idx) => {
+                {[...navItems, { name: 'Area riservata', id: 'login', icon: LogIn }].map((item, idx) => {
                   const Icon = item.icon;
                   const active = location.pathname === '/' ? activeSection === item.id : false;
                   const delay = 30 + idx * 40;

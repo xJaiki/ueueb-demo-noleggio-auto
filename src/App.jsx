@@ -10,6 +10,7 @@ import ErrorBoundary from './pages/ErrorBoundary';
 import ToastProvider from './components/ui/ToastProvider';
 import Fullpage from './pages/Fullpage';
 import Login from './pages/Login';
+import Slices from './pages/Slices';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
 
             {/* Keep standalone pages accessible (optional) */}
             <Route path="/home" element={<Home />} />
+            <Route path="/slices" element={<Slices />} />
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/about" element={<About />} />
             <Route path="/contatti" element={<Contact />} />
