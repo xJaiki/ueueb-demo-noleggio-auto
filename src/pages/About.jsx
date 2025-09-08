@@ -1,89 +1,141 @@
 import React from 'react';
-import { ArrowRight, CheckCircle2, Gauge, Workflow, Handshake, Rocket, TrendingUp } from 'lucide-react';
-import SectionDivider from '../components/ui/SectionDivider';
+import { GraduationCap, Star, Rocket, Lightbulb, Code, Heart, ArrowRight } from 'lucide-react';
 
 const About = () => {
-  const scrollToSection = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const y = el.getBoundingClientRect().top + window.scrollY - 64;
-    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-  };
-
   return (
-    <section className=" flex flex-col justify-start md:justify-center bg-light text-dark font-sans">
-      <div className="container mx-auto px-6 pb-16">
-        <div className="grid md:grid-cols-12 gap-10 items-center">
-          {/* Left: manifesto */}
-          <div className="md:col-span-6 pt-16 md:pt-12 pb-10">
-            <p className="font-mono text-primary mb-3 ml-4 md:ml-0 text-sm md:text-base">Chi siamo</p>
+    <section className="min-h-screen flex flex-col justify-center bg-light text-dark font-sans py-16 md:py-20 px-6 md:px-8">
+      <div className="container mx-auto">
 
-            <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[0.95] ml-4 md:ml-0">
-              <span
-                className="block"
-              >
-                Esperienze che crescono
-              </span>
-            </h1>
+        {/* Intestazione */}
+        <div className=" mb-12">
+          <p className="font-mono text-primary mb-2 text-sm md:text-base">Chi Siamo</p>
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-[0.95]">
+            Due menti, un solo obiettivo.
+          </h1>
+          <p className="text-dark/70 mt-6  mx-auto">
+            In Digital Slices, la strategia incontra la tecnica. Crediamo che le grandi idee abbiano bisogno di un'esecuzione impeccabile per brillare.
+          </p>
+        </div>
 
-            <p className="text-lg md:text-xl text-dark/80 max-w-xl my-6 ml-4 md:ml-0 font-medium">
-              Siamo uno studio boutique: progettiamo siti, web app e gestionali performanti, con SEO tecnico e attenzione ai dettagli.
-            </p>
-
-            {/* Principles */}
-            <ul className="ml-4 md:ml-0 grid gap-3">
-              {[
-                { icon: CheckCircle2, text: 'Design che funziona (non solo bello)' },
-                { icon: Gauge, text: 'Performance first e Core Web Vitals' },
-                { icon: Workflow, text: 'Processi su misura e integrazioni' },
-                { icon: Handshake, text: 'Partnership, non solo fornitori' },
-              ].map((p) => (
-                <li key={p.text} className="flex items-start gap-3">
-                  <p.icon className="w-5 h-5 mt-0.5 text-primary" />
-                  <span className="text-sm md:text-base text-dark/80">{p.text}</span>
-                </li>
-              ))}
-            </ul>
-
+        {/* Layout a due card per i profili */}
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 max-w-5xl mx-auto mb-16">
+          
+          {/* Card 1: Lo Stratega */}
+          <div className="group relative overflow-hidden rounded-3xl glass-surface border border-dark/5 transition-shadow text-left shadow-sm hover:shadow-lg flex flex-col h-auto">
+            {/* Header con immagine */}
+            <div className="relative w-full aspect-[3/2] overflow-hidden shrink-0 bg-amber-50">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Lightbulb className="w-20 h-20 text-amber-600/30" />
+              </div>
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.05] via-transparent to-transparent opacity-90" />
+              <div className="absolute left-4 bottom-4">
+                <span className="text-xs px-2 py-0.5 rounded-full border border-amber-600/30 bg-amber-50/70 text-amber-800/80 shadow-sm">
+                  Strategia
+                </span>
+              </div>
+            </div>
+            
+            {/* Contenuto */}
+            <div className="p-5 flex-1 flex flex-col">
+              <h2 className="text-xl md:text-2xl font-bold tracking-tight text-heading">[Nome del Partner]</h2>
+              <p className="font-mono text-primary text-xs mt-1 mb-3">Strategia & Comunicazione</p>
+              <p className="text-dark/80 text-sm">
+                È la mente strategica. Trasforma i tuoi obiettivi in un messaggio chiaro e un'immagine vincente, assicurando che ogni progetto non solo funzioni, ma parli direttamente al cuore dei tuoi clienti.
+              </p>
+              <div className="mt-auto pt-4">
+                <p className="text-sm text-dark/60 italic">
+                  "La strategia senza esecuzione è solo una bella idea."
+                </p>
+              </div>
+            </div>
           </div>
 
-          {/* Right: stats + stack + quote */}
-          <div className="md:col-span-6">
-            {/* Stats card */}
-            <div className="glass-surface rounded-3xl border border-dark/5 p-5 md:p-6 shadow-sm">
-              <div className="grid grid-cols-3 divide-x divide-dark/10">
-                {[
-                  { icon: Rocket, label: 'Progetti', value: '30+' },
-                  { icon: TrendingUp, label: 'CWV pass', value: '95%' },
-                  { icon: Handshake, label: 'Clienti', value: '20+' },
-                ].map((s) => (
-                  <div key={s.label} className="flex flex-col items-center px-2 py-2">
-                    <s.icon className="w-4 h-4 text-primary mb-1" />
-                    <span className="text-xl font-extrabold tracking-tight">{s.value}</span>
-                    <span className="text-[11px] text-dark/60">{s.label}</span>
-                  </div>
-                ))}
+          {/* Card 2: Il Tecnico */}
+          <div className="group relative overflow-hidden rounded-3xl glass-surface border border-dark/5 transition-shadow text-left shadow-sm hover:shadow-lg flex flex-col h-auto">
+            {/* Header con immagine */}
+            <div className="relative w-full aspect-[3/2] overflow-hidden shrink-0 bg-sky-50">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Code className="w-20 h-20 text-sky-600/30" />
               </div>
-
-              {/* Stack */}
-              <div className="mt-4 flex flex-wrap gap-2">
-                {['React', 'Vite', 'Tailwind', 'Node', 'Postgres', 'Cloudflare'].map((t) => (
-                  <span key={t} className="inline-flex items-center gap-1 rounded-full border border-dark/10 bg-white/70 px-2.5 py-1 text-[11px] text-dark/70">
-                    <span className="block w-1.5 h-1.5 rounded-full bg-primary/70" /> {t}
-                  </span>
-                ))}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.05] via-transparent to-transparent opacity-90" />
+              <div className="absolute left-4 bottom-4">
+                <span className="text-xs px-2 py-0.5 rounded-full border border-sky-600/30 bg-sky-50/70 text-sky-800/80 shadow-sm">
+                  Sviluppo
+                </span>
               </div>
-
-              {/* Quote */}
-              <blockquote className="mt-5 rounded-2xl bg-white/60 border border-dark/10 p-4 text-sm text-dark/70 italic">
-                “Ogni fetta ben fatta è il risultato di ingredienti giusti e tempi perfetti. Facciamo lo stesso con il software.”
-              </blockquote>
+            </div>
+            
+            {/* Contenuto */}
+            <div className="p-5 flex-1 flex flex-col">
+              <h2 className="text-xl md:text-2xl font-bold tracking-tight text-heading">Mario</h2>
+              <p className="font-mono text-primary text-xs mt-1 mb-3">Sviluppo & Design</p>
+              <p className="text-dark/80 text-sm">
+                È l'artigiano digitale. Costruisce soluzioni rapide, efficienti e intuitive, con un'attenzione maniacale al design e all'esperienza utente. La sua missione è creare strumenti semplici che portano a risultati concreti.
+              </p>
+              <div className="mt-auto pt-4">
+                <p className="text-sm text-dark/60 italic">
+                  "Il codice pulito non è solo elegante, è rispetto per chi verrà dopo di te."
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Divider (narrow) */}
-        <SectionDivider fullBleed={false} maxWidthClass="max-w-xl" />
+        {/* Sezione Valori */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-center mb-10">I nostri valori</h2>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Valore 1 */}
+            <div className="group relative overflow-hidden rounded-2xl glass-surface border border-dark/5 shadow-sm hover:shadow-md transition-shadow">
+              <div className="absolute top-0 right-0 w-16 h-16 -m-8 bg-primary/5 rounded-full"></div>
+              <div className="p-5">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
+                  <Rocket className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="font-bold text-xl mb-2">Efficienza</h3>
+                <p className="text-dark/70 text-sm">Soluzioni rapide che non sacrificano la qualità. Il tempo è prezioso, specialmente per le piccole imprese.</p>
+              </div>
+            </div>
+            
+            {/* Valore 2 */}
+            <div className="group relative overflow-hidden rounded-2xl glass-surface border border-dark/5 shadow-sm hover:shadow-md transition-shadow">
+              <div className="absolute top-0 right-0 w-16 h-16 -m-8 bg-amber-50 rounded-full"></div>
+              <div className="p-5">
+                <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mb-4 group-hover:bg-amber-200 transition-colors">
+                  <Lightbulb className="w-6 h-6 text-amber-600" />
+                </div>
+                <h3 className="font-bold text-xl mb-2">Chiarezza</h3>
+                <p className="text-dark/70 text-sm">Niente gergo tecnico o soluzioni complicate. Parliamo la tua lingua e creiamo strumenti che semplificano.</p>
+              </div>
+            </div>
+            
+            {/* Valore 3 */}
+            <div className="group relative overflow-hidden rounded-2xl glass-surface border border-dark/5 shadow-sm hover:shadow-md transition-shadow">
+              <div className="absolute top-0 right-0 w-16 h-16 -m-8 bg-sky-50 rounded-full"></div>
+              <div className="p-5">
+                <div className="w-12 h-12 rounded-full bg-sky-100 flex items-center justify-center mb-4 group-hover:bg-sky-200 transition-colors">
+                  <Code className="w-6 h-6 text-sky-600" />
+                </div>
+                <h3 className="font-bold text-xl mb-2">Qualità</h3>
+                <p className="text-dark/70 text-sm">Costruiamo con attenzione ai dettagli. Ogni pixel, ogni riga di codice, ogni parola è pensata con cura.</p>
+              </div>
+            </div>
+            
+            {/* Valore 4 */}
+            <div className="group relative overflow-hidden rounded-2xl glass-surface border border-dark/5 shadow-sm hover:shadow-md transition-shadow">
+              <div className="absolute top-0 right-0 w-16 h-16 -m-8 bg-rose-50 rounded-full"></div>
+              <div className="p-5">
+                <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mb-4 group-hover:bg-rose-200 transition-colors">
+                  <Heart className="w-6 h-6 text-rose-600" />
+                </div>
+                <h3 className="font-bold text-xl mb-2">Passione</h3>
+                <p className="text-dark/70 text-sm">Amiamo quello che facciamo e ci teniamo al tuo successo. Non siamo semplici fornitori, siamo partner.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
       </div>
     </section>
   );

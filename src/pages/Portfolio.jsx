@@ -37,9 +37,9 @@ const Portfolio = () => {
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="pt-16 md:pt-10 pb-6">
-          <p className="font-mono mb-2 text-sm md:text-base text-primary">I nostri lavori</p>
+          <p className="font-mono mb-2 text-sm md:text-base text-primary">Portfolio</p>
           <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[0.95]">
-            <span className="block ">Portfolio</span>
+            <span className="block ">I nostri lavori</span>
           </h1>
           <p className="text-dark/70 max-w-xl mt-4">Selezione curata dei nostri progetti. Focus su performance, UX e integrazioni su misura.</p>
         </div>
