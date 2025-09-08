@@ -166,7 +166,7 @@ const Slices = () => {
                     fill="#666"
                     fontFamily="sans-serif"
                   >
-                    Esplora servizi
+                    Servizi
                   </text>
                 )}
               </svg>
