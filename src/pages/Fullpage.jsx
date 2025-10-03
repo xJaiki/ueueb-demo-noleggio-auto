@@ -1,28 +1,30 @@
 import React from 'react';
 import Home from './Home';
-import Portfolio from './Portfolio';
-import About from './About';
+import Flotta from './Flotta';
+import Servizi from './Servizi';
+import ChiSiamo from './ChiSiamo';
 import Contact from './Contact';
-import Slices from './Slices';
+import Footer from '../components/layout/Footer';
 
 const Fullpage = () => {
   return (
     <div>
-      <section id="home" className=" scroll-mt-16 md:scroll-mt-0">
+      <section id="home">
         <Home />
       </section>
-      <section id="slices" className=" scroll-mt-16 md:scroll-mt-0">
-        <Slices />
+      <section id="flotta">
+        <Flotta />
       </section>
-      <section id="portfolio" className=" scroll-mt-16 md:scroll-mt-0">
-        <Portfolio />
+      <section id="servizi">
+        <Servizi />
       </section>
-      <section id="about" className=" scroll-mt-16 md:scroll-mt-0">
-        <About />
+      <section id="chi-siamo">
+        <ChiSiamo />
       </section>
-      <section id="contact" className=" scroll-mt-16 md:scroll-mt-0">
+      <section id="contatti">
         <Contact />
       </section>
+      <Footer />
     </div>
   );
 };

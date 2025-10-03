@@ -1,50 +1,18 @@
 import React from 'react';
 
-// Reusable wavy dashed divider to mark section/page end
-// Props:
-// - colorClass: tailwind text-* color (default: text-primary)
-// - stroke: stroke width (default: 3)
-// - dash: dash pattern (default: '12 10')
-// - spacingClass: vertical spacing classes (default: 'my-12 md:my-16 lg:my-20')
-// - fullBleed: stretches edge-to-edge when true (default: true)
-// - maxWidthClass: max width when not fullBleed (default: 'max-w-2xl')
-const SectionDivider = ({
-  colorClass = 'text-primary',
-  stroke = 3,
-  dash = '12 10',
-  spacingClass = 'my-12 md:my-16 lg:my-20',
-  fullBleed = true,
-  maxWidthClass = 'max-w-2xl',
-}) => {
-  const Wrapper = ({ children }) =>
-    fullBleed ? (
-      <div className={`${spacingClass} w-full`}>{children}</div>
-    ) : (
-      <div className={`${spacingClass} w-full ${maxWidthClass} mx-auto`}>{children}</div>
-    );
-
+const SectionDivider = ({ color = 'currentColor' }) => {
   return (
-    // <Wrapper>
-    //   <div className={`w-full ${colorClass}`} role="separator" aria-hidden>
-    //     <svg
-    //       viewBox="0 0 1200 60"
-    //       xmlns="http://www.w3.org/2000/svg"
-    //       preserveAspectRatio="none"
-    //       className="block w-full h-10 md:h-12"
-    //     >
-    //       <path
-    //         d="M0 30 C 100 55, 200 5, 300 30 S 500 55, 600 30 700 5, 800 30 1000 55, 1100 30 1200 5, 1200 5"
-    //         fill="none"
-    //         stroke="currentColor"
-    //         strokeWidth={stroke}
-    //         strokeLinecap="round"
-    //         strokeDasharray={dash}
-    //       />
-    //     </svg>
-    //   </div>
-    // </Wrapper>
-    <></>
+    <div className="w-full flex items-center justify-center my-16" aria-hidden="true">
+      <div className="w-24 h-px bg-current opacity-30"></div>
+      <svg width="80" height="40" viewBox="0 0 100 50" className="mx-4 text-accent">
+        <path d="M50 0 L60 25 L50 50 L40 25 Z" fill="currentColor" />
+        <path d="M30 25 L40 25" stroke="currentColor" strokeWidth="2" opacity="0.6" />
+        <path d="M70 25 L60 25" stroke="currentColor" strokeWidth="2" opacity="0.6" />
+        <circle cx="25" cy="25" r="3" fill="currentColor" opacity="0.5"/>
+        <circle cx="75" cy="25" r="3" fill="currentColor" opacity="0.5"/>
+      </svg>
+      <div className="w-24 h-px bg-current opacity-30"></div>
+    </div>
   );
-};
-
+}
 export default SectionDivider;
