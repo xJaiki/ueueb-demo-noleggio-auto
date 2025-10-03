@@ -1,3 +1,11 @@
+// Import delle immagini
+import alfaDuettoImg from '../assets/alfa-duetto.webp';
+import fiat500Img from '../assets/fiat-500.jpg';
+import jaguarETypeImg from '../assets/jaguar-e-type.jpg';
+import vwMaggolinoImg from '../assets/vw-maggiolino.jpg';
+import citroenDsImg from '../assets/citroen-ds.png';
+import lanciaFulviaImg from '../assets/lancia-fulvia.avif';
+
 /**
  * @typedef {Object} Car
  * @property {string} id - unique slug
@@ -17,7 +25,7 @@ export const cars = [
     name: 'Alfa Romeo Spider "Duetto"',
     year: '1966-1969',
     shortDescription: "Romanticismo puro, \"Dolce Vita\" e libertà. L'auto resa immortale dal film Il Laureato.",
-    coverImage: '../assets/alfa-duetto.webp',
+    coverImage: alfaDuettoImg,
     gallery: [],
     content: "L'atmosfera che crea: Romanticismo puro, \"Dolce Vita\" e libertà. È l'auto resa immortale dal film Il Laureato. Perfetta per una coppia di sposi, evoca immagini di fughe d'amore lungo coste panoramiche e colline assolate. Il suo design sinuoso e inconfondibile la rende incredibilmente fotogenica.\n\nIdeale per: Matrimoni, fughe romantiche, tour panoramici per coppie.",
     specs: {
@@ -31,7 +39,7 @@ export const cars = [
     name: 'Fiat 500 D/F/L',
     year: '1960-1972',
     shortDescription: "Simpatia, allegria e un tocco di nostalgia chic. L'icona italiana amata da tutti.",
-    coverImage: '../assets/fiat-500.jpg',
+    coverImage: fiat500Img,
     gallery: [],
     content: "L'atmosfera che crea: Simpatia, allegria e un tocco di nostalgia chic. Il Cinquino è un'icona italiana amata da tutti. È l'auto che fa sorridere chiunque la veda passare. Nella sua semplicità è incredibilmente stilosa e perfetta per eventi con un'atmosfera più rilassata, vintage o country-chic.\n\nIdeale per: Matrimoni a tema vintage, shooting fotografici divertenti, eventi promozionali.",
     specs: {
@@ -45,7 +53,7 @@ export const cars = [
     name: 'Jaguar E-Type',
     year: '1961-1975',
     shortDescription: "Eleganza assoluta, lusso e classe senza tempo. Spesso definita l'auto più bella del mondo.",
-    coverImage: '../assets/jaguar-e-type.jpg',
+    coverImage: jaguarETypeImg,
     gallery: [],
     content: "L'atmosfera che crea: Eleganza assoluta, lusso e classe senza tempo. Spesso definita l'auto più bella del mondo, la E-Type è una vera e propria scultura su ruote. Il suo cofano lunghissimo e le sue linee fluide comunicano un senso di prestigio e raffinatezza ineguagliabili. È una scelta di grande impatto.\n\nIdeale per: Eventi di lusso, matrimoni formali, clienti che desiderano il massimo dell'eleganza.",
     specs: {
@@ -59,7 +67,7 @@ export const cars = [
     name: 'Volkswagen Maggiolino Cabriolet',
     year: '1960-1979',
     shortDescription: "Spensieratezza, stile bohémien e un senso di avventura on the road.",
-    coverImage: '../assets/vw-maggiolino.jpg',
+    coverImage: vwMaggolinoImg,
     gallery: [],
     content: "L'atmosfera che crea: Spensieratezza, stile bohémien e un senso di avventura on the road. Come la 500, è un'icona pop, ma con un respiro più internazionale e un'aria da figli dei fiori. La versione cabriolet è perfetta per godersi il viaggio e per foto piene di gioia.\n\nIdeale per: Matrimoni a tema boho-chic o informali, addii al nubilato/celibato, tour estivi.",
     specs: {
@@ -73,7 +81,7 @@ export const cars = [
     name: 'Citroën DS Pallas',
     year: '1955-1975',
     shortDescription: "Avanguardia, design intellettuale e comfort regale. Soprannominata La Dea.",
-    coverImage: '../assets/citroen-ds.png',
+    coverImage: citroenDsImg,
     gallery: [],
     content: "L'atmosfera che crea: Avanguardia, design intellettuale e comfort regale. Soprannominata La Dea (dal francese Déesse), la DS sembrava un'astronave al suo debutto. Ancora oggi, il suo stile è unico e ricercato. Con le sue famose sospensioni idropneumatiche, offre un comfort di marcia leggendario. È l'auto per chi vuole distinguersi con originalità e cultura.\n\nIdeale per: Eventi legati al mondo del design o dell'arte, matrimoni per coppie non convenzionali, produzioni cinematografiche.",
     specs: {
@@ -87,7 +95,7 @@ export const cars = [
     name: 'Lancia Fulvia Coupé',
     year: '1965-1976',
     shortDescription: "Stile da gentleman driver, sportività discreta e classe italiana per intenditori.",
-    coverImage: '../assets/lancia-fulvia.avif',
+    coverImage: lanciaFulviaImg,
     gallery: [],
     content: "L'atmosfera che crea: Stile da gentleman driver, sportività discreta e classe italiana. Meno appariscente della E-Type e meno scontata dell'Alfa Spider, la Fulvia Coupé è un capolavoro di equilibrio e design. È l'auto per l'intenditore, per chi apprezza l'eleganza sobria e le belle meccaniche.\n\nIdeale per: L'arrivo dello sposo, eventi aziendali di classe, tour per appassionati di motori.",
     specs: {
